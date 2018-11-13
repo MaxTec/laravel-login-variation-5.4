@@ -30,7 +30,7 @@ class LoginController extends Controller
     protected $redirectTo = '/home';
     private $userNameField  = 'email';
     private $passwordField  = 'password';
-    private $loginGuard = '';
+
     /**
      * Create a new controller instance.
      *
@@ -48,12 +48,10 @@ class LoginController extends Controller
             $this->userNameField = 'correo';
             $this->passwordField = 'password';
             $this->redirectTo = '/usuarios';
-            $this->loginGuard = 'webadministrador';
         } elseif ($request->is('cliente/login')) {
             $this->userNameField = 'correo';
             $this->passwordField = 'notarjeta';
             $this->redirectTo = '/clientes';
-            $this->loginGuard = 'webcliente';
         }
     }
 
@@ -111,7 +109,7 @@ class LoginController extends Controller
      */
     protected function attemptLogin(Request $request)
     {
-        return $this->guard($this->loginGuard)->attempt(
+        return $this->guard()->attempt(
             $this->credentials($request),
             $request->has('remember')
         );
@@ -140,7 +138,7 @@ class LoginController extends Controller
 
         $this->clearLoginAttempts($request);
 
-        return $this->authenticated($request, $this->guard($this->loginGuard)->user())
+        return $this->authenticated($request, $this->guard()->user())
                 ?: redirect()->intended($this->redirectPath());
     }
 
@@ -181,6 +179,6 @@ class LoginController extends Controller
      */
     protected function guard()
     {
-        return Auth::guard($this->loginGuard);
+        return Auth::guard();
     }
 }
