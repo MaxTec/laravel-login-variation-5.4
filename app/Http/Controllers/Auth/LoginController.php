@@ -47,12 +47,12 @@ class LoginController extends Controller
         if ($request->is('administrador/login')) {
             $this->userNameField = 'correo';
             $this->passwordField = 'password';
-            $this->redirectTo = 'client.index';
+            $this->redirectTo = 'administrator.index';
             $this->loginGuard = 'webcustomadmin';
         } elseif ($request->is('cliente/login')) {
             $this->userNameField = 'correo';
             $this->passwordField = 'notarjeta';
-            $this->redirectTo = 'administrator.index';
+            $this->redirectTo = 'client.index';
             $this->loginGuard = 'webcustomclient';
         }
     }
