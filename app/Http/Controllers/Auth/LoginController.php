@@ -167,7 +167,8 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
-        $this->guard($this->loginGuard)->logout();
+        // $this->guard($this->loginGuard)->logout();
+        auth($request->input('logout-role') === 'admin' ? 'webcustomadmin' : 'webcustomclient')->logout();
 
         $request->session()->invalidate();
 
