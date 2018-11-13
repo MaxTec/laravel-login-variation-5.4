@@ -17,6 +17,13 @@
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
+                <div>
+                  Auth admin:  {{ Auth::guard('webcustomadmin')->user() }}
+                </div>
+                <div>
+                  Auth client:  {{ Auth::guard('webcustomclient')->user()   }}
+                </div>
+
                 <div class="navbar-header">
 
                     <!-- Collapsed Hamburger -->
@@ -42,11 +49,12 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
+
                         @if (Auth::guest())
-                            <li><a href="{{ route('login') }}">Login</a></li>
+
                             <li><a href="{{ route('administrador.login') }}">Login administrador</a></li>
                             <li><a href="{{ route('cliente.login') }}">Login cliente</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
+
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -55,13 +63,13 @@
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                        <a href="{{ route('logout') }}"
+                                        <a href="{{ Auth::guard('webcustomadmin') ? route('administrador.logout') : route('cliente.logout')  }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                             Logout
                                         </a>
 
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        <form id="logout-form" action="{{ Auth::guard('webcustomadmin') ? route('administrador.logout') : route('cliente.logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                             <input type="hidden" name="logout-role" value="{{ Auth::user()->role }}">
                                         </form>

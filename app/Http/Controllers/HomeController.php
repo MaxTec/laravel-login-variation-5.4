@@ -14,8 +14,8 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:webcliente,webadministrador');
-        // $this->middleware('auth');
+        // $this->middleware('auth:webcliente,webadministrador');
+        $this->middleware('auth:webcustomclient,webcustomadmin');
     }
 
     /**

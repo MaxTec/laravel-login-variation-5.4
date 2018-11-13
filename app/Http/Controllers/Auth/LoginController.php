@@ -30,7 +30,7 @@ class LoginController extends Controller
     protected $redirectTo = '/home';
     private $userNameField  = 'email';
     private $passwordField  = 'password';
-
+    private $loginGuard = '';
     /**
      * Create a new controller instance.
      *
@@ -38,8 +38,8 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['guest:webcliente','guest:webadministrador'])->except('logout');
-        // $this->middleware('guest');
+        // $this->middleware(['guest:webcliente','guest:webadministrador'])->except('logout');
+        $this->middleware(['guest:webcustomclient','guest:webcustomadmin'])->except('logout');
     }
 
     public function setUserNameAndPasswordField($request)
@@ -47,11 +47,13 @@ class LoginController extends Controller
         if ($request->is('administrador/login')) {
             $this->userNameField = 'correo';
             $this->passwordField = 'password';
-            $this->redirectTo = '/usuarios';
+            $this->redirectTo = 'client.index';
+            $this->loginGuard = 'webcustomadmin';
         } elseif ($request->is('cliente/login')) {
             $this->userNameField = 'correo';
             $this->passwordField = 'notarjeta';
-            $this->redirectTo = '/clientes';
+            $this->redirectTo = 'administrator.index';
+            $this->loginGuard = 'webcustomclient';
         }
     }
 
@@ -109,7 +111,7 @@ class LoginController extends Controller
      */
     protected function attemptLogin(Request $request)
     {
-        return $this->guard()->attempt(
+        return $this->guard($this->loginGuard)->attempt(
             $this->credentials($request),
             $request->has('remember')
         );
@@ -138,7 +140,7 @@ class LoginController extends Controller
 
         $this->clearLoginAttempts($request);
 
-        return $this->authenticated($request, $this->guard()->user())
+        return $this->authenticated($request, $this->guard($this->loginGuard)->user())
                 ?: redirect()->intended($this->redirectPath());
     }
 
@@ -165,11 +167,16 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
-        $this->guard()->logout();
+        $this->guard($this->loginGuard)->logout();
 
         $request->session()->invalidate();
 
         return $request->input('logout-role') === 'admin' ? redirect()->route('administrador.login') : redirect()->route('cliente.login');
+    }
+
+    public function redirectPath()
+    {
+        return route($this->redirectTo);
     }
 
     /**
@@ -179,6 +186,6 @@ class LoginController extends Controller
      */
     protected function guard()
     {
-        return Auth::guard();
+        return Auth::guard($this->loginGuard);
     }
 }
