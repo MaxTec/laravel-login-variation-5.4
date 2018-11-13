@@ -2,26 +2,24 @@
 
 namespace App;
 
-// use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class Client extends Authenticatable
 {
-    // use Notifiable;
-
-    // protected $primaryKey = 'id_usuarios';
+    protected $primaryKey = 'id_clientes';
     /**
      * Indicates if the model should be timestamped.
      *
      * @var bool
      */
-    // public $timestamps = false;
+    public $timestamps = false;
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    // protected $table = 'usuarios';
+    protected $table = 'clientes';
 
     /**
      * The attributes that are mass assignable.
@@ -29,8 +27,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        // 'correo', 'nombre', 'password',
-        'name', 'email', 'password',
+      'nombre', 'correo', 'notarjeta',
     ];
 
     /**
@@ -39,7 +36,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+      'remember_token',
     ];
 
     /**
@@ -47,8 +44,18 @@ class User extends Authenticatable
      *
      * @return string
      */
-    // public function getAuthIdentifierName()
-    // {
-    //     return 'id_usuarios';
-    // }
+    public function getAuthIdentifierName()
+    {
+        return 'id_clientes';
+    }
+
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword()
+    {
+        return $this->notarjeta;
+    }
 }

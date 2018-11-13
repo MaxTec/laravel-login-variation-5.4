@@ -40,6 +40,14 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'webcliente' => [
+          'driver' => 'session',
+          'provider' => 'clientes',
+        ],
+        'webadministrador' => [
+          'driver' => 'session',
+          'provider' => 'administradores',
+        ],
 
         'api' => [
             'driver' => 'token',
@@ -69,7 +77,14 @@ return [
             'driver' => 'eloquent',
             'model' => App\User::class,
         ],
-
+        'clientes' => [
+          'driver' => 'legacy',
+          'model' => App\Client::class,
+        ],
+        'administradores' => [
+          'driver' => 'eloquent',
+          'model' => App\User::class,
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -96,6 +111,16 @@ return [
             'provider' => 'users',
             'table' => 'password_resets',
             'expire' => 60,
+        ],
+        'clientes' => [
+            'provider' => 'clientes',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
+        'administradores' => [
+          'provider' => 'administradores',
+          'table' => 'password_resets',
+          'expire' => 60,
         ],
     ],
 
