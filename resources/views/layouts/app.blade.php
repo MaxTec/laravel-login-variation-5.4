@@ -61,6 +61,7 @@
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
+                                            <input type="hidden" name="logout-role" value="{{ Auth::user()->role }}">
                                         </form>
                                     </li>
                                 </ul>

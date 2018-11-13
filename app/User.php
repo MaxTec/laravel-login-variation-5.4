@@ -9,19 +9,19 @@ class User extends Authenticatable
 {
     // use Notifiable;
 
-    // protected $primaryKey = 'id_usuarios';
+    protected $primaryKey = 'id_usuarios';
     /**
      * Indicates if the model should be timestamped.
      *
      * @var bool
      */
-    // public $timestamps = false;
+    public $timestamps = false;
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    // protected $table = 'usuarios';
+    protected $table = 'usuarios';
 
     /**
      * The attributes that are mass assignable.
@@ -29,8 +29,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        // 'correo', 'nombre', 'password',
-        'name', 'email', 'password',
+        'correo', 'nombre', 'password',
     ];
 
     /**
@@ -47,8 +46,12 @@ class User extends Authenticatable
      *
      * @return string
      */
-    // public function getAuthIdentifierName()
-    // {
-    //     return 'id_usuarios';
-    // }
+    public function getAuthIdentifierName()
+    {
+        return 'id_usuarios';
+    }
+
+    public function getRoleAttribute() {
+      return 'admin';
+    }
 }

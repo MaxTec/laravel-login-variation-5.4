@@ -38,7 +38,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest:webcliente,webadministrador')->except('logout');
+        $this->middleware(['guest:webcliente','guest:webadministrador'])->except('logout');
         // $this->middleware('guest');
     }
 
@@ -47,10 +47,12 @@ class LoginController extends Controller
         if ($request->is('administrador/login')) {
             $this->userNameField = 'correo';
             $this->passwordField = 'password';
+            $this->redirectTo = '/usuarios';
             $this->loginGuard = 'webadministrador';
         } elseif ($request->is('cliente/login')) {
             $this->userNameField = 'correo';
             $this->passwordField = 'notarjeta';
+            $this->redirectTo = '/clientes';
             $this->loginGuard = 'webcliente';
         }
     }
@@ -156,6 +158,7 @@ class LoginController extends Controller
     {
         return $this->passwordField;
     }
+
     /**
      * Log the user out of the application.
      *
@@ -164,11 +167,11 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
-        $this->guard($this->loginGuard)->logout();
+        $this->guard()->logout();
 
         $request->session()->invalidate();
 
-        return redirect('/');
+        return $request->input('logout-role') === 'admin' ? redirect()->route('administrador.login') : redirect()->route('cliente.login');
     }
 
     /**

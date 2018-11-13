@@ -58,4 +58,8 @@ class Client extends Authenticatable
     {
         return $this->notarjeta;
     }
+
+    public function getRoleAttribute() {
+      return 'client';
+    }
 }
