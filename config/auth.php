@@ -40,13 +40,13 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'webcliente' => [
+        'webcustomclient' => [
           'driver' => 'session',
-          'provider' => 'clientes',
+          'provider' => 'customclient',
         ],
-        'webadministrador' => [
+        'webcustomadmin' => [
           'driver' => 'session',
-          'provider' => 'administradores',
+          'provider' => 'customadmin',
         ],
 
         'api' => [
@@ -77,11 +77,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\User::class,
         ],
-        'clientes' => [
+        'customclient' => [
           'driver' => 'legacy',
           'model' => App\Client::class,
         ],
-        'administradores' => [
+        'customadmin' => [
           'driver' => 'eloquent',
           'model' => App\User::class,
         ],
@@ -112,16 +112,16 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
         ],
-        'clientes' => [
-            'provider' => 'clientes',
-            'table' => 'password_resets',
-            'expire' => 60,
-        ],
-        'administradores' => [
-          'provider' => 'administradores',
+        'customclient' => [
+          'provider' => 'customclient',
           'table' => 'password_resets',
           'expire' => 60,
         ],
-    ],
+        'customadmin' => [
+            'provider' => 'customadmin',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
+      ],
 
 ];
